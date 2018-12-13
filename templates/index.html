@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>imagenetの予測をするサイト</title>
+  </head>
+  <body>
+    <h1>imagenetの予測をします</h1>
+    <p>画像をアップロードしてください</p>
+    <form method="post" action="/send" enctype="multipart/form-data">
+　　  <input type="file" id="img_file" name="img_file" class="col-sm-4">
+  　　<input type="submit" value="送信" class="btn">
+    <p>1MB以上の画像はアップロードできません</p>
+    <p style="color: {{color}};"> {{message}} </p>
+　　</form>
+  </body>
+</html>
