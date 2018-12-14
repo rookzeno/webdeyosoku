@@ -28,6 +28,8 @@ def posttest():
     try:
         bunrui = imagenet(img_file)
         name, desc, score =  bunrui.deep()
+        for i in range(5):
+            desc[i] = [i+1,desc[i],round(score[i],1)]
     except:
         return render_template('index.html',massege = "解析出来ませんでした",color = "red")
     buf = io.BytesIO()
@@ -35,7 +37,7 @@ def posttest():
     image.save(buf, 'png')
     qr_b64str = base64.b64encode(buf.getvalue()).decode("utf-8")
     qr_b64data = "data:image/png;base64,{}".format(qr_b64str)
-    return render_template('kekka.html',namae = desc ,kaku = score,img = qr_b64data)
+    return render_template('kekka.html',namae = desc ,img = qr_b64data)
 
 @app.route('/kekka')
 def kekka():
