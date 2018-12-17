@@ -6,7 +6,7 @@ import io
 import qrcode as qr
 import base64
 
-app = app = Flask(__name__)
+app = Flask(__name__)
 
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 
