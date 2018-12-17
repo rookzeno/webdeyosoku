@@ -1,18 +1,22 @@
 import numpy as np
 from keras.preprocessing import image
-from keras.applications.resnet50 import ResNet50, preprocess_input, decode_predictions
+import tensorflow as tf
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.utils import CustomObjectScope
+from keras.applications.mobilenet import MobileNet, preprocess_input, decode_predictions
+from keras.models import load_model
 
 class imagenet():
     def __init__(self,img):
-        img = image.load_img(img, target_size=(224, 224))
-        img = image.img_to_array(img).reshape(1,224,224,3)
+        img = image.load_img(img, target_size=(128, 128))
+        img = image.img_to_array(img).reshape(1,128,128,3)
         self.img = img
     def load_image(filename):
-        img = image.load_img(filename, target_size=(224, 224))
+        img = image.load_img(filename, target_size=(128, 128))
         return image.img_to_array(img)
     def deep(self):
-        model = ResNet50(include_top=True, weights='imagenet',
-              input_tensor=None, input_shape=None)
+        model = MobileNet(input_shape=(128,128,3), alpha=1.0, depth_multiplier=1, dropout=1e-3, include_top=True, weights=None, input_tensor=None, pooling=None, classes=1000)
+        model.load_weights("./model/kerasmobilenet.h5")
         pred = model.predict(preprocess_input(self.img))
         top = decode_predictions(pred, top=5)
         name = []
