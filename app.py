@@ -7,10 +7,14 @@ import qrcode as qr
 import base64
 from keras.applications.mobilenet import MobileNet, preprocess_input, decode_predictions
 from keras.models import load_model
+import json
 
 app = Flask(__name__)
 
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+with open('./model/imagenet_class_index.json',encoding="utf-8") as f:
+    zisyo = json.load(f)
+    zisyo = {item["en"]: item["ja"] for item in zisyo}
 model = MobileNet(input_shape=(128,128,3), alpha=1.0, depth_multiplier=1, dropout=1e-3, include_top=True, weights=None, input_tensor=None, pooling=None, classes=1000)
 model.load_weights("./model/kerasmobilenet.h5")
 bunrui = imagenet(model)
@@ -32,7 +36,7 @@ def posttest():
     try:
         desc, score =  bunrui.predict(img_file)
         for i in range(5):
-            desc[i] = [i+1,desc[i],round(score[i],1)]
+            desc[i] = [i+1,zisyo[desc[i]],round(score[i],1)]
     except:
         return render_template('index.html',massege = "解析出来ませんでした",color = "red")
     buf = io.BytesIO()
