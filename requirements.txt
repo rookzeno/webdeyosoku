@@ -4,3 +4,4 @@ Pillow==5.2.0
 qrcode==6.0
 gunicorn==19.9.0
 numpy==1.14.3
+tensorflow==1.8.0
