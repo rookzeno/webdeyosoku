@@ -5,11 +5,15 @@ from PIL import Image
 import io
 import qrcode as qr
 import base64
+from keras.applications.mobilenet import MobileNet, preprocess_input, decode_predictions
+from keras.models import load_model
 
 app = Flask(__name__)
 
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
-
+model = MobileNet(input_shape=(128,128,3), alpha=1.0, depth_multiplier=1, dropout=1e-3, include_top=True, weights=None, input_tensor=None, pooling=None, classes=1000)
+model.load_weights("./model/kerasmobilenet.h5")
+bunrui = imagenet(model)
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -26,8 +30,7 @@ def posttest():
         return render_template('index.html',massege = "対応してない拡張子です",color = "red")
     print("success")
     try:
-        bunrui = imagenet(img_file)
-        name, desc, score =  bunrui.deep()
+        desc, score =  bunrui.predict(img_file)
         for i in range(5):
             desc[i] = [i+1,desc[i],round(score[i],1)]
     except:
