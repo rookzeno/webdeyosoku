@@ -60,6 +60,8 @@ def oversize(error):
 @app.errorhandler(400)
 def nosubmit(error):
     return render_template('index.html',massege = "画像を送信してください",color = "red")
-
+@app.errorhandler(503)
+def all_error_handler(error):
+     return 'InternalServerError\n', 503
 if __name__ == '__main__':
     app.run()
