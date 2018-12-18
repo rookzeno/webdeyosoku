@@ -54,6 +54,12 @@ def kekka():
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+@app.errorhandler(413)
+def oversize(error):
+    return render_template('index.html',massege = "画像サイズが大きすぎます",color = "red")
+@app.errorhandler(400)
+def nosubmit(error):
+    return render_template('index.html',massege = "画像を送信してください",color = "red")
 
 if __name__ == '__main__':
     app.run()
